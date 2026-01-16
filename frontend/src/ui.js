@@ -6,10 +6,17 @@ import { useState, useRef, useCallback } from 'react';
 import ReactFlow, { Controls, Background, MiniMap } from 'reactflow';
 import { useStore } from './store';
 import { shallow } from 'zustand/shallow';
-import { InputNode } from './nodes/inputNode';
-import { LLMNode } from './nodes/llmNode';
-import { OutputNode } from './nodes/outputNode';
-import { TextNode } from './nodes/textNode';
+import { 
+  InputNode, 
+  OutputNode, 
+  LLMNode, 
+  TextNode,
+  NoteNode,
+  MathNode,
+  FileNode,
+  DateNode,
+  DisplayNode
+} from './nodes';
 
 import 'reactflow/dist/style.css';
 
@@ -20,6 +27,11 @@ const nodeTypes = {
   llm: LLMNode,
   customOutput: OutputNode,
   text: TextNode,
+  note: NoteNode,
+  math: MathNode,
+  file: FileNode,
+  date: DateNode,
+  display: DisplayNode,
 };
 
 const selector = (state) => ({
@@ -80,7 +92,7 @@ export const PipelineUI = () => {
             addNode(newNode);
           }
         },
-        [reactFlowInstance]
+        [reactFlowInstance, getNodeID, addNode]
     );
 
     const onDragOver = useCallback((event) => {
@@ -90,7 +102,7 @@ export const PipelineUI = () => {
 
     return (
         <>
-        <div ref={reactFlowWrapper} style={{width: '100wv', height: '70vh'}}>
+        <div ref={reactFlowWrapper} className="flex-1 w-full bg-slate-950">
             <ReactFlow
                 nodes={nodes}
                 edges={edges}
@@ -105,9 +117,9 @@ export const PipelineUI = () => {
                 snapGrid={[gridSize, gridSize]}
                 connectionLineType='smoothstep'
             >
-                <Background color="#aaa" gap={gridSize} />
-                <Controls />
-                <MiniMap />
+                <Background color="#334155" gap={gridSize} />
+                <Controls className="!bg-slate-800 !border-slate-600 !rounded-lg" />
+                <MiniMap className="!bg-slate-800 !border-slate-600 !rounded-lg" />
             </ReactFlow>
         </div>
         </>
