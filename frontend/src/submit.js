@@ -3,6 +3,9 @@
 import { useStore } from './store';
 import { shallow } from 'zustand/shallow';
 
+// Use environment variable for deployed backend, fallback to localhost for development
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000';
+
 const selector = (state) => ({
     nodes: state.nodes,
     edges: state.edges,
@@ -13,7 +16,7 @@ export const SubmitButton = () => {
 
     const handleSubmit = async () => {
         try {
-            const response = await fetch('http://localhost:8000/pipelines/parse', {
+            const response = await fetch(`${API_URL}/pipelines/parse`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
