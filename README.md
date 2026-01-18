@@ -2,6 +2,13 @@
 
 > Frontend Technical Assessment - A visual pipeline builder application
 
+## 🌐 Live Demo
+
+|              | URL                                                                                            |
+| ------------ | ---------------------------------------------------------------------------------------------- |
+| **Frontend** | [https://vectorshift-frontend-six.vercel.app](https://vectorshift-frontend-six.vercel.app)     |
+| **Backend**  | [https://vectorshift-backend-5832.onrender.com](https://vectorshift-backend-5832.onrender.com) |
+
 ---
 
 ## 💡 Design Philosophy
