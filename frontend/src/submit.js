@@ -62,7 +62,7 @@ export const SubmitButton = () => {
                         : 'bg-violet-600 hover:bg-violet-700 hover:shadow-xl'
                 } text-white`}
             >
-                {loading ? 'Analyzing...' : 'Submit Pipeline'}
+                {loading ? 'Submitting...' : 'Submit'}
             </button>
         </div>
     );
