@@ -15,14 +15,9 @@ const selector = (state) => ({
 export const SubmitButton = () => {
     const { nodes, edges } = useStore(selector, shallow);
     const [loading, setLoading] = useState(false);
-    const [result, setResult] = useState(null);
-    const [error, setError] = useState(null);
 
     const handleSubmit = async () => {
-        // Reset states
         setLoading(true);
-        setResult(null);
-        setError(null);
 
         try {
             const response = await fetch(`${API_URL}/pipelines/parse`, {
@@ -38,12 +33,18 @@ export const SubmitButton = () => {
             }
 
             const data = await response.json();
-            setResult(data);
-            setError(null);
-        } catch (err) {
-            setError(err.message || 'Failed to connect to backend');
-            setResult(null);
-            console.error('Submit error:', err);
+
+            // Show success alert
+            alert(
+                `Pipeline Analysis\n\n` +
+                `📊 Nodes: ${data.num_nodes}\n` +
+                `🔗 Edges: ${data.num_edges}\n` +
+                `✅ Valid DAG: ${data.is_dag ? 'Yes' : 'No'}`
+            );
+        } catch (error) {
+            // Show error alert
+            console.error('Submit error:', error);
+            alert(`Error: ${error.message || 'Could not connect to backend'}`);
         } finally {
             setLoading(false);
         }
@@ -63,31 +64,6 @@ export const SubmitButton = () => {
             >
                 {loading ? 'Analyzing...' : 'Submit Pipeline'}
             </button>
-
-            {/* Success Result */}
-            {result && (
-                <div className="mt-3 px-4 py-2 bg-green-900/50 border border-green-600 rounded-lg text-sm">
-                    <span className="text-green-400 font-semibold">✅ Pipeline Analysis</span>
-                    <div className="text-slate-300 mt-1">
-                        📊 Nodes: <span className="font-semibold text-white">{result.num_nodes}</span>
-                        {' • '}
-                        🔗 Edges: <span className="font-semibold text-white">{result.num_edges}</span>
-                        {' • '}
-                        {result.is_dag ? (
-                            <span className="text-green-400">✓ Valid DAG</span>
-                        ) : (
-                            <span className="text-red-400">✗ Not a DAG (has cycles)</span>
-                        )}
-                    </div>
-                </div>
-            )}
-
-            {/* Error Message */}
-            {error && (
-                <div className="mt-3 px-4 py-2 bg-red-900/50 border border-red-600 rounded-lg text-sm">
-                    <span className="text-red-400">❌ Error: {error}</span>
-                </div>
-            )}
         </div>
     );
 }
