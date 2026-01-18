@@ -8,11 +8,10 @@ export const TextNode = ({ id, data }) => {
   const [variables, setVariables] = useState([]);
   const textareaRef = useRef(null);
 
-  // Variable detection regex - matches valid JS variable names in {{ }}
-  const variableRegex = /\{\{\s*([a-zA-Z_$][a-zA-Z0-9_$]*)\s*\}\}/g;
-
   // Parse text for variables
   useEffect(() => {
+    // Variable detection regex - matches valid JS variable names in {{ }}
+    const variableRegex = /\{\{\s*([a-zA-Z_$][a-zA-Z0-9_$]*)\s*\}\}/g;
     const matches = [...currText.matchAll(variableRegex)];
     const uniqueVars = [...new Set(matches.map(m => m[1]))];
     setVariables(uniqueVars);
